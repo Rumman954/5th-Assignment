@@ -23,7 +23,8 @@ function handleSignIn() {
   const password = document.getElementById('password').value;
 
   if (username === DEMO_USERNAME && password === DEMO_PASSWORD) {
-    alert('Login successful! Welcome, ' + username + '.');
+    sessionStorage.setItem('isLoggedIn', 'true');
+    window.location.href = 'home.html';
   } else {
     alert('Invalid credentials. Please use Username: admin, Password: admin123');
   }
