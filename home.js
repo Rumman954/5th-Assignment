@@ -87,7 +87,13 @@ function handleSearch() {
 function switchTab(tab) {
   currentTab = tab;
   updateTabStyles();
-  renderIssues();
+  showLoading();
+  issuesGrid.classList.add('hidden');
+  noResults.classList.add('hidden');
+  setTimeout(() => {
+    renderIssues();
+    hideLoading();
+  }, 300);
 }
 
 function updateTabStyles() {
