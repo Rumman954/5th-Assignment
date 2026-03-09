@@ -46,6 +46,8 @@ function setupEventListeners() {
   issueModal.addEventListener('click', (e) => {
     if (e.target === issueModal) hideIssueModal();
   });
+
+  window.addEventListener('themechange', () => updateTabStyles());
 }
 
 async function loadIssues() {
@@ -89,17 +91,23 @@ function switchTab(tab) {
 }
 
 function updateTabStyles() {
+  const isDark = document.documentElement.classList.contains('dark');
+  const inactiveBg = isDark ? '#1f2937' : '#ffffff';
+  const inactiveColor = isDark ? '#d1d5db' : '#374151';
+  const inactiveBorder = isDark ? '#4b5563' : '#d1d5db';
+  const activeBorderBottom = isDark ? '#1f2937' : 'white';
+
   tabButtons.forEach(btn => {
     if (btn.dataset.tab === currentTab) {
       btn.style.backgroundColor = '#633EFF';
       btn.style.color = 'white';
       btn.style.border = '1px solid #633EFF';
-      btn.style.borderBottom = '2px solid white';
+      btn.style.borderBottom = `2px solid ${activeBorderBottom}`;
       btn.style.marginBottom = '-2px';
     } else {
-      btn.style.backgroundColor = '#ffffff';
-      btn.style.color = '#374151';
-      btn.style.border = '1px solid #d1d5db';
+      btn.style.backgroundColor = inactiveBg;
+      btn.style.color = inactiveColor;
+      btn.style.border = `1px solid ${inactiveBorder}`;
       btn.style.borderBottom = 'none';
       btn.style.marginBottom = '0';
     }
@@ -164,7 +172,7 @@ function createIssueCard(issue) {
   const labels = Array.isArray(issue.labels) ? issue.labels : [];
 
   const card = document.createElement('div');
-  card.className = 'issue-card bg-white rounded-lg border border-gray-200 border-t-4 p-3 sm:p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer';
+  card.className = 'issue-card bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 border-t-4 p-3 sm:p-4 shadow-sm hover:shadow-md transition-colors cursor-pointer';
   card.style.borderTopColor = borderColor;
   card.addEventListener('click', () => showIssueModal(issue.id));
   const statusIconHtml = isOpen
@@ -175,12 +183,12 @@ function createIssueCard(issue) {
       ${statusIconHtml}
       <span class="px-2 py-0.5 rounded-full text-xs font-semibold uppercase" style="${priorityTagStyle}">${escapeHtml(issue.priority || 'N/A')}</span>
     </div>
-    <h3 class="font-semibold text-gray-800 mb-2 line-clamp-2">${escapeHtml(issue.title)}</h3>
-    <p class="text-sm text-gray-600 mb-3 line-clamp-2">${escapeHtml(issue.description || '')}</p>
+    <h3 class="font-semibold text-gray-800 dark:text-gray-100 mb-2 line-clamp-2">${escapeHtml(issue.title)}</h3>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">${escapeHtml(issue.description || '')}</p>
     <div class="flex flex-wrap gap-1 mb-3">
       ${labels.map(l => `<span class="px-2 py-0.5 rounded text-xs font-medium" style="${getLabelStyle(l)}"># ${escapeHtml(l)}</span>`).join('')}
     </div>
-    <div class="text-xs text-gray-500 pt-2 border-t border-gray-100">
+    <div class="text-xs text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-100 dark:border-gray-700">
       <span>#${issue.id} by ${escapeHtml(issue.author || '-')}</span>
       <span class="mx-1">•</span>
       <span>${formattedDate}</span>
