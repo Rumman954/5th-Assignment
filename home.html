@@ -89,6 +89,25 @@
     </div>
   </main>
 
+  <!-- Issue Detail Modal -->
+  <div id="issueModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div class="p-6">
+        <h2 id="modalTitle" class="text-xl font-bold text-gray-800 mb-2"></h2>
+        <p id="modalMeta" class="text-sm text-gray-500 mb-4"></p>
+        <div id="modalLabels" class="flex flex-wrap gap-2 mb-4"></div>
+        <p id="modalDescription" class="text-gray-600 mb-4"></p>
+        <div class="space-y-2 mb-6">
+          <p><span class="text-gray-500 font-medium">Assignee:</span> <span id="modalAssignee" class="text-gray-800"></span></p>
+          <p><span class="text-gray-500 font-medium">Priority:</span> <span id="modalPriority"></span></p>
+        </div>
+        <div class="flex justify-end">
+          <button id="closeModal" class="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="home.js"></script>
 </body>
 </html>

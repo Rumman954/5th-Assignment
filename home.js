@@ -8,6 +8,8 @@ const loadingSpinner = document.getElementById('loadingSpinner');
 const noResults = document.getElementById('noResults');
 const issueCount = document.getElementById('issueCount');
 const searchInput = document.getElementById('searchInput');
+const issueModal = document.getElementById('issueModal');
+const closeModal = document.getElementById('closeModal');
 
 let allIssues = [];
 let currentTab = 'all';
@@ -34,6 +36,11 @@ function setupEventListeners() {
   document.getElementById('logoutBtn').addEventListener('click', () => {
     sessionStorage.removeItem('isLoggedIn');
     window.location.href = 'index.html';
+  });
+
+  closeModal.addEventListener('click', hideIssueModal);
+  issueModal.addEventListener('click', (e) => {
+    if (e.target === issueModal) hideIssueModal();
   });
 }
 
@@ -141,7 +148,8 @@ function createIssueCard(issue) {
   const priorityClass = getPriorityClass(issue.priority);
 
   const card = document.createElement('div');
-  card.className = `issue-card bg-white rounded-lg border border-gray-200 border-t-4 ${borderClass} p-4 shadow-sm hover:shadow-md transition-shadow`;
+  card.className = `issue-card bg-white rounded-lg border border-gray-200 border-t-4 ${borderClass} p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer`;
+  card.addEventListener('click', () => showIssueModal(issue.id));
   card.innerHTML = `
     <div class="flex justify-between items-start mb-3">
       <span class="w-2.5 h-2.5 rounded-full ${statusColor} mt-1.5 flex-shrink-0"></span>
@@ -194,4 +202,69 @@ function showNoResults() {
 
 function hideNoResults() {
   noResults.classList.add('hidden');
+}
+
+async function showIssueModal(issueId) {
+  try {
+    const response = await fetch(`${API_BASE}/issue/${issueId}`);
+    const result = await response.json();
+
+    if (result.status === 'success' && result.data) {
+      const issue = result.data;
+      const statusText = issue.status === 'open' ? 'Opened' : 'Closed';
+      const metaDate = formatDateModal(issue.createdAt);
+
+      document.getElementById('modalTitle').textContent = issue.title;
+      document.getElementById('modalMeta').textContent = `${statusText} • Opened by ${issue.author || '-'} • ${metaDate}`;
+      document.getElementById('modalDescription').textContent = issue.description || 'No description';
+      document.getElementById('modalAssignee').textContent = issue.assignee || '-';
+
+      const priorityEl = document.getElementById('modalPriority');
+      const priorityClass = getModalPriorityClass(issue.priority);
+      priorityEl.innerHTML = `<span class="px-2 py-0.5 rounded text-xs font-semibold uppercase ${priorityClass}">${escapeHtml(issue.priority || '-')}</span>`;
+
+      const labelsEl = document.getElementById('modalLabels');
+      const labels = Array.isArray(issue.labels) ? issue.labels : [];
+      labelsEl.innerHTML = labels.map(l => {
+        const cls = getModalLabelClass(l);
+        return `<span class="px-2 py-1 rounded text-xs font-medium text-white ${cls}">${escapeHtml(l).toUpperCase()}</span>`;
+      }).join('');
+
+      issueModal.classList.remove('hidden');
+      issueModal.classList.add('flex');
+    }
+  } catch (error) {
+    console.error('Error loading issue:', error);
+  }
+}
+
+function hideIssueModal() {
+  issueModal.classList.add('hidden');
+  issueModal.classList.remove('flex');
+}
+
+function formatDateModal(dateStr) {
+  if (!dateStr) return '-';
+  const date = new Date(dateStr);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
+function getModalPriorityClass(priority) {
+  const p = (priority || '').toLowerCase();
+  if (p === 'high') return 'bg-red-500';
+  if (p === 'medium') return 'bg-orange-500';
+  if (p === 'low') return 'bg-purple-500';
+  return 'bg-gray-500';
+}
+
+function getModalLabelClass(label) {
+  const l = (label || '').toLowerCase();
+  if (l.includes('bug')) return 'bg-green-600';
+  if (l.includes('help wanted')) return 'bg-amber-500';
+  if (l.includes('enhancement')) return 'bg-blue-500';
+  if (l.includes('documentation')) return 'bg-blue-400';
+  return 'bg-gray-500';
 }
