@@ -8,57 +8,59 @@
   <link rel="stylesheet" href="tailwind.init.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body class="bg-white min-h-screen">
+<body class="bg-white min-h-screen overflow-x-hidden">
   <!-- Navbar -->
   <nav class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 py-4">
-        <div class="flex items-center gap-2">
-          <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="w-8 h-8">
-          <span class="text-xl font-bold text-gray-800">GitHub Issues Tracker</span>
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+      <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center py-3 sm:py-4">
+        <div class="flex items-center gap-2 min-w-0">
+          <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="w-7 h-7 sm:w-8 sm:h-8 flex-shrink-0">
+          <span class="text-base sm:text-xl font-bold text-gray-800 truncate">GitHub Issues Tracker</span>
         </div>
-        <div class="flex w-full sm:w-auto gap-2">
-          <div class="relative flex-1 sm:w-64">
+        <div class="flex flex-col sm:flex-row w-full sm:w-auto gap-2">
+          <div class="relative flex-1 min-w-0">
             <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
             <input 
               type="text" 
               id="searchInput" 
               placeholder="Search Issues..." 
-              class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg outline-none search-input-focus"
+              class="w-full pl-10 pr-4 py-2.5 sm:py-2 min-h-[44px] sm:min-h-0 border border-gray-300 rounded-lg outline-none search-input-focus"
             >
           </div>
-          <button class="px-4 py-2 text-white font-medium rounded-lg transition-colors whitespace-nowrap hover:opacity-90" style="background-color: #633EFF;">
-            <i class="fas fa-plus mr-2"></i> New Issue
-          </button>
-          <button id="logoutBtn" class="px-4 py-2 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors" title="Logout">
-            <i class="fas fa-sign-out-alt"></i>
-          </button>
+          <div class="flex gap-2">
+            <button class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 min-h-[44px] text-white font-medium rounded-lg transition-colors whitespace-nowrap hover:opacity-90" style="background-color: #633EFF;">
+              <i class="fas fa-plus mr-2"></i> New Issue
+            </button>
+            <button id="logoutBtn" class="px-4 py-2.5 sm:py-2 min-h-[44px] text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors" title="Logout">
+              <i class="fas fa-sign-out-alt"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </nav>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
     <!-- Tabs -->
-    <div class="flex gap-0 border-b-2 border-dotted border-gray-300 pb-0 mb-6">
-      <button id="tabAll" class="tab-btn px-6 py-2.5 rounded-t-lg font-medium text-white" style="background-color: #633EFF;" data-tab="all">All</button>
-      <button id="tabOpen" class="tab-btn px-6 py-2.5 rounded-t-lg font-medium bg-white border border-b-0 border-gray-300 text-gray-700 hover:bg-gray-50" data-tab="open">Open</button>
-      <button id="tabClosed" class="tab-btn px-6 py-2.5 rounded-t-lg font-medium bg-white border border-b-0 border-gray-300 text-gray-700 hover:bg-gray-50" data-tab="closed">Closed</button>
+    <div class="tabs-scroll flex gap-0 border-b-2 border-dotted border-gray-300 pb-0 mb-4 sm:mb-6 overflow-x-auto">
+      <button id="tabAll" class="tab-btn px-4 sm:px-6 py-2.5 rounded-t-lg font-medium text-white flex-shrink-0 min-h-[44px]" style="background-color: #633EFF;" data-tab="all">All</button>
+      <button id="tabOpen" class="tab-btn px-4 sm:px-6 py-2.5 rounded-t-lg font-medium bg-white border border-b-0 border-gray-300 text-gray-700 hover:bg-gray-50 flex-shrink-0 min-h-[44px]" data-tab="open">Open</button>
+      <button id="tabClosed" class="tab-btn px-4 sm:px-6 py-2.5 rounded-t-lg font-medium bg-white border border-b-0 border-gray-300 text-gray-700 hover:bg-gray-50 flex-shrink-0 min-h-[44px]" data-tab="closed">Closed</button>
     </div>
 
     <!-- Summary Section -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div class="flex items-center gap-3">
-          <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background-color: rgba(99, 62, 255, 0.1);">
-            <i class="fas fa-cog text-xl" style="color: #633EFF;"></i>
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 mb-4 sm:mb-6">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: rgba(99, 62, 255, 0.1);">
+            <i class="fas fa-cog text-lg sm:text-xl" style="color: #633EFF;"></i>
           </div>
-          <div>
-            <h2 class="text-2xl font-bold text-gray-800"><span id="issueCount">0</span> Issues</h2>
-            <p class="text-gray-500 text-sm">Track and manage your project issues.</p>
+          <div class="min-w-0">
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-800"><span id="issueCount">0</span> Issues</h2>
+            <p class="text-gray-500 text-xs sm:text-sm">Track and manage your project issues.</p>
           </div>
         </div>
-        <div class="flex items-center gap-6 text-sm">
+        <div class="flex items-center gap-4 sm:gap-6 text-sm flex-shrink-0">
           <span class="flex items-center gap-2">
             <span class="w-3 h-3 rounded-full" style="background-color: #28A745;"></span>
             <span class="text-gray-600">Open</span>
@@ -72,13 +74,13 @@
     </div>
 
     <!-- Loading Spinner -->
-    <div id="loadingSpinner" class="flex flex-col items-center justify-center py-20">
+    <div id="loadingSpinner" class="flex flex-col items-center justify-center py-12 sm:py-20">
       <div class="w-12 h-12 border-4 border-t-transparent rounded-full animate-spin" style="border-color: #633EFF; border-top-color: transparent;"></div>
       <p class="mt-4 text-gray-500">Loading issues...</p>
     </div>
 
     <!-- Issues Grid -->
-    <div id="issuesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 hidden">
+    <div id="issuesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 hidden">
       <!-- Issue cards will be inserted here -->
     </div>
 
@@ -90,13 +92,13 @@
   </main>
 
   <!-- Issue Detail Modal -->
-  <div id="issueModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
-    <div class="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-      <div class="p-6">
-        <h2 id="modalTitle" class="text-xl font-bold text-gray-800 mb-2"></h2>
+  <div id="issueModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto my-auto">
+      <div class="p-4 sm:p-6">
+        <h2 id="modalTitle" class="text-lg sm:text-xl font-bold text-gray-800 mb-2 break-words"></h2>
         <p id="modalMeta" class="text-sm text-gray-500 mb-4"></p>
         <div id="modalLabels" class="flex flex-wrap gap-2 mb-4"></div>
-        <p id="modalDescription" class="text-gray-600 mb-4"></p>
+        <p id="modalDescription" class="text-gray-600 mb-4 text-sm sm:text-base break-words"></p>
         <div class="space-y-2 mb-6">
           <p><span class="text-gray-500 font-medium">Assignee:</span> <span id="modalAssignee" class="text-gray-800"></span></p>
           <p><span class="text-gray-500 font-medium">Priority:</span> <span id="modalPriority"></span></p>

@@ -171,7 +171,7 @@ function createIssueCard(issue) {
   const labels = Array.isArray(issue.labels) ? issue.labels : [];
 
   const card = document.createElement('div');
-  card.className = 'issue-card bg-white rounded-lg border border-gray-200 border-t-4 p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer';
+  card.className = 'issue-card bg-white rounded-lg border border-gray-200 border-t-4 p-3 sm:p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer';
   card.style.borderTopColor = borderColor;
   card.addEventListener('click', () => showIssueModal(issue.id));
   const statusIconHtml = isOpen
