@@ -1,0 +1,6 @@
+/* Tailwind CSS - Custom styles for GitHub Issues Tracker Login */
+
+/* Custom focus styles for better accessibility */
+input:focus, button:focus {
+  outline: none;
+}

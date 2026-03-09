@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Issues Tracker - Sign In</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="tailwind.init.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-md">
+    <!-- Login Card -->
+    <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-8">
+      <!-- Logo -->
+      <div class="flex justify-center mb-6">
+        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="w-16 h-16">
+      </div>
+
+      <!-- Title -->
+      <h1 class="text-2xl font-bold text-gray-800 text-center mb-2">GitHub Issues Tracker</h1>
+      <p class="text-gray-500 text-center text-sm mb-8">Sign in to manage your issues.</p>
+
+      <!-- Username -->
+      <div class="mb-6">
+        <label for="username" class="block text-gray-700 font-medium mb-2">Username</label>
+        <input 
+          type="text" 
+          id="username" 
+          placeholder="Enter Username" 
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none"
+        >
+        <p class="text-purple-600 text-sm mt-1">Default: admin</p>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-6">
+        <label for="password" class="block text-gray-700 font-medium mb-2">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          placeholder="Enter Password" 
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none"
+        >
+        <p class="text-purple-600 text-sm mt-1">Default: admin123</p>
+      </div>
+
+      <!-- Sign In Button -->
+      <button 
+        id="signInBtn" 
+        class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors mb-6"
+      >
+        Sign in
+      </button>
+
+      <!-- Separator -->
+      <div class="flex items-center gap-4 mb-6">
+        <div class="flex-1 h-px bg-gray-200"></div>
+        <span class="text-gray-400 text-sm">OR</span>
+        <div class="flex-1 h-px bg-gray-200"></div>
+      </div>
+
+      <!-- Demo Credentials -->
+      <p class="text-gray-500 text-sm text-center mb-3">Demo Credentials</p>
+      <div class="bg-gray-100 rounded-lg p-4 text-gray-700 text-sm">
+        <p><span class="text-gray-500">Username:</span> <span class="font-medium">admin</span></p>
+        <p class="mt-1"><span class="text-gray-500">Password:</span> <span class="font-medium">admin123</span></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>
