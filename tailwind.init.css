@@ -3,14 +3,16 @@
 /* Design colors from Figma */
 :root {
   --primary-purple: #633EFF;
-  --open-green: #28A745;
-  --closed-purple: #633EFF;
-  --priority-high-bg: #FEE7E8;
-  --priority-medium-bg: #FFF2CC;
-  --priority-low-bg: #F0F0FA;
-  --priority-enhancement-bg: #D4EDDA;
-  --label-bug: #F56565;
-  --label-help-wanted: #E6A800;
+  --open-green: #2CBE8A;
+  --closed-purple: #938FFF;
+  --priority-high-bg: #FDE7E9;
+  --priority-high-text: #EA5560;
+  --priority-medium-bg: #FFF2E2;
+  --priority-medium-text: #F3974D;
+  --priority-low-bg: #EEEDFF;
+  --priority-low-text: #938FFF;
+  --label-enhancement-bg: #DEFFF1;
+  --label-enhancement-text: #2CBE8A;
 }
 
 /* Login page - focus styles */

@@ -30,8 +30,11 @@ function setupEventListeners() {
     btn.addEventListener('click', () => switchTab(btn.dataset.tab));
   });
 
-  searchInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') handleSearch();
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearch();
+    }
   });
 
   document.getElementById('logoutBtn').addEventListener('click', () => {
@@ -128,45 +131,35 @@ function renderIssues() {
   });
 }
 
-function getPriorityBorderColor(priority) {
+function getStatusBorderColor(status) {
+  const s = (status || '').toLowerCase();
+  if (s === 'open') return '#3BBF5D';
+  if (s === 'closed') return '#9B59B6';
+  return '#9B59B6';
+}
+
+function getPriorityTagStyle(priority) {
   const p = (priority || '').toLowerCase();
-  if (p === 'high') return '#FEE7E8';
-  if (p === 'medium') return '#FFF2CC';
-  if (p === 'low') return '#F0F0FA';
-  if (p === 'enhancement') return '#D4EDDA';
-  return '#F0F0FA';
+  if (p === 'high') return 'background-color: #FDE7E9; color: #EA5560;';
+  if (p === 'medium') return 'background-color: #FFF2E2; color: #F3974D;';
+  if (p === 'low') return 'background-color: #EEEDFF; color: #938FFF;';
+  if (p === 'enhancement') return 'background-color: #DEFFF1; color: #2CBE8A;';
+  return 'background-color: #F3F4F6; color: #374151;';
 }
 
-function getPriorityTagClass(priority) {
-  const p = (priority || '').toLowerCase();
-  if (p === 'high') return 'bg-[#FEE7E8] text-[#C53030]';
-  if (p === 'medium') return 'bg-[#FFF2CC] text-[#B45309]';
-  if (p === 'low') return 'bg-[#F0F0FA] text-[#553C9A]';
-  if (p === 'enhancement') return 'bg-[#D4EDDA] text-[#276749]';
-  return 'bg-gray-100 text-gray-800';
-}
-
-function getLabelClass(label) {
+function getLabelStyle(label) {
   const l = (label || '').toLowerCase();
-  if (l.includes('bug')) return 'text-white';
-  if (l.includes('help wanted')) return 'text-white';
-  if (l.includes('enhancement')) return 'text-[#276749]';
-  return 'text-gray-800';
-}
-
-function getLabelBgStyle(label) {
-  const l = (label || '').toLowerCase();
-  if (l.includes('bug')) return '#F56565';
-  if (l.includes('help wanted')) return '#E6A800';
-  if (l.includes('enhancement')) return '#D4EDDA';
-  if (l.includes('documentation')) return '#BEE3F8';
-  return '#E5E7EB';
+  if (l.includes('bug')) return 'background-color: #FDE7E9; color: #EA5560;';
+  if (l.includes('help wanted')) return 'background-color: #FFF2E2; color: #F3974D;';
+  if (l.includes('enhancement')) return 'background-color: #DEFFF1; color: #2CBE8A;';
+  if (l.includes('documentation')) return 'background-color: #EFF6FF; color: #3B82F6;';
+  return 'background-color: #F3F4F6; color: #374151;';
 }
 
 function createIssueCard(issue) {
   const isOpen = issue.status === 'open';
-  const borderColor = getPriorityBorderColor(issue.priority);
-  const priorityTagClass = getPriorityTagClass(issue.priority);
+  const borderColor = getStatusBorderColor(issue.status);
+  const priorityTagStyle = getPriorityTagStyle(issue.priority);
   const formattedDate = formatDate(issue.createdAt);
   const labels = Array.isArray(issue.labels) ? issue.labels : [];
 
@@ -180,12 +173,12 @@ function createIssueCard(issue) {
   card.innerHTML = `
     <div class="flex justify-between items-start mb-3">
       ${statusIconHtml}
-      <span class="px-2 py-0.5 rounded-full text-xs font-semibold uppercase ${priorityTagClass}">${escapeHtml(issue.priority || 'N/A')}</span>
+      <span class="px-2 py-0.5 rounded-full text-xs font-semibold uppercase" style="${priorityTagStyle}">${escapeHtml(issue.priority || 'N/A')}</span>
     </div>
     <h3 class="font-semibold text-gray-800 mb-2 line-clamp-2">${escapeHtml(issue.title)}</h3>
     <p class="text-sm text-gray-600 mb-3 line-clamp-2">${escapeHtml(issue.description || '')}</p>
     <div class="flex flex-wrap gap-1 mb-3">
-      ${labels.map(l => `<span class="px-2 py-0.5 rounded text-xs font-medium ${getLabelClass(l)}" style="background-color: ${getLabelBgStyle(l)}"># ${escapeHtml(l)}</span>`).join('')}
+      ${labels.map(l => `<span class="px-2 py-0.5 rounded text-xs font-medium" style="${getLabelStyle(l)}"># ${escapeHtml(l)}</span>`).join('')}
     </div>
     <div class="text-xs text-gray-500 pt-2 border-t border-gray-100">
       <span>#${issue.id} by ${escapeHtml(issue.author || '-')}</span>
@@ -247,14 +240,14 @@ async function showIssueModal(issueId) {
       document.getElementById('modalAssignee').textContent = issue.assignee || '-';
 
       const priorityEl = document.getElementById('modalPriority');
-      const priorityClass = getModalPriorityClass(issue.priority);
-      priorityEl.innerHTML = `<span class="px-2 py-0.5 rounded text-xs font-semibold uppercase ${priorityClass}">${escapeHtml(issue.priority || '-')}</span>`;
+      const priorityStyle = getPriorityTagStyle(issue.priority);
+      priorityEl.innerHTML = `<span class="px-2 py-0.5 rounded text-xs font-semibold uppercase" style="${priorityStyle}">${escapeHtml(issue.priority || '-')}</span>`;
 
       const labelsEl = document.getElementById('modalLabels');
       const labels = Array.isArray(issue.labels) ? issue.labels : [];
       labelsEl.innerHTML = labels.map(l => {
-        const cls = getModalLabelClass(l);
-        return `<span class="px-2 py-1 rounded text-xs font-medium text-white ${cls}">${escapeHtml(l).toUpperCase()}</span>`;
+        const labelStyle = getLabelStyle(l);
+        return `<span class="px-2 py-1 rounded text-xs font-medium" style="${labelStyle}">${escapeHtml(l).toUpperCase()}</span>`;
       }).join('');
 
       issueModal.classList.remove('hidden');
@@ -279,19 +272,3 @@ function formatDateModal(dateStr) {
   return `${day}/${month}/${year}`;
 }
 
-function getModalPriorityClass(priority) {
-  const p = (priority || '').toLowerCase();
-  if (p === 'high') return 'bg-red-500';
-  if (p === 'medium') return 'bg-orange-500';
-  if (p === 'low') return 'bg-purple-500';
-  return 'bg-gray-500';
-}
-
-function getModalLabelClass(label) {
-  const l = (label || '').toLowerCase();
-  if (l.includes('bug')) return 'bg-green-600';
-  if (l.includes('help wanted')) return 'bg-amber-500';
-  if (l.includes('enhancement')) return 'bg-blue-500';
-  if (l.includes('documentation')) return 'bg-blue-400';
-  return 'bg-gray-500';
-}
