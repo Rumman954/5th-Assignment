@@ -1,6 +1,3 @@
-/* Tailwind CSS - Custom styles for GitHub Issues Tracker */
-
-/* Design colors from Figma */
 :root {
   --primary-purple: #633EFF;
   --open-green: #2CBE8A;
@@ -15,7 +12,6 @@
   --label-enhancement-text: #2CBE8A;
 }
 
-/* Login page - focus styles */
 input:focus, button:focus {
   outline: none;
 }
@@ -31,7 +27,6 @@ input[type="number"] {
   appearance: textfield;
 }
 
-/* Search input focus - primary purple */
 .search-input-focus:focus {
   box-shadow: 0 0 0 2px #633EFF;
   border-color: #633EFF;
@@ -42,12 +37,10 @@ input[type="number"] {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
 }
 
-/* Main page - issue card hover */
 .issue-card:hover {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-/* Line clamp for card text */
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -55,12 +48,10 @@ input[type="number"] {
   overflow: hidden;
 }
 
-/* Responsive - smooth scrolling on mobile */
 .overflow-x-auto {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Hide scrollbar on tabs - not in Figma design */
 .tabs-scroll::-webkit-scrollbar {
   display: none;
 }

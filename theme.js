@@ -1,4 +1,3 @@
-// Theme toggle - Light/Dark mode
 const THEME_KEY = 'github-issues-theme';
 
 function getTheme() {
@@ -29,10 +28,8 @@ function updateThemeIcon() {
   }
 }
 
-// Apply theme on load (before DOM ready)
 setTheme(getTheme());
 
-// Update icon and add click handler when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   updateThemeIcon();
   const btn = document.getElementById('themeToggle');

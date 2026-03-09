@@ -1,4 +1,3 @@
-// Demo credentials for frontend validation only (no backend)
 const DEMO_USERNAME = 'admin';
 const DEMO_PASSWORD = 'admin123';
 
@@ -9,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   signInBtn.addEventListener('click', handleSignIn);
 
-  // Allow Enter key to submit
   passwordInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') handleSignIn();
   });
