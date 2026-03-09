@@ -1,8 +1,27 @@
 /* Tailwind CSS - Custom styles for GitHub Issues Tracker */
 
+/* Design colors from Figma */
+:root {
+  --primary-purple: #633EFF;
+  --open-green: #28A745;
+  --closed-purple: #633EFF;
+  --priority-high-bg: #FEE7E8;
+  --priority-medium-bg: #FFF2CC;
+  --priority-low-bg: #F0F0FA;
+  --priority-enhancement-bg: #D4EDDA;
+  --label-bug: #F56565;
+  --label-help-wanted: #E6A800;
+}
+
 /* Login page - focus styles */
 input:focus, button:focus {
   outline: none;
+}
+
+/* Search input focus - primary purple */
+.search-input-focus:focus {
+  box-shadow: 0 0 0 2px #633EFF;
+  border-color: #633EFF;
 }
 
 /* Main page - issue card hover */
@@ -17,3 +36,4 @@ input:focus, button:focus {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+

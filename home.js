@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.location.href = 'index.html';
     return;
   }
+  updateTabStyles();
   loadIssues();
   setupEventListeners();
 });
@@ -87,11 +88,17 @@ function switchTab(tab) {
 function updateTabStyles() {
   tabButtons.forEach(btn => {
     if (btn.dataset.tab === currentTab) {
-      btn.classList.remove('bg-gray-200', 'text-gray-700');
-      btn.classList.add('bg-purple-600', 'text-white');
+      btn.style.backgroundColor = '#633EFF';
+      btn.style.color = 'white';
+      btn.style.border = '1px solid #633EFF';
+      btn.style.borderBottom = '2px solid white';
+      btn.style.marginBottom = '-2px';
     } else {
-      btn.classList.remove('bg-purple-600', 'text-white');
-      btn.classList.add('bg-gray-200', 'text-gray-700');
+      btn.style.backgroundColor = '#ffffff';
+      btn.style.color = '#374151';
+      btn.style.border = '1px solid #d1d5db';
+      btn.style.borderBottom = 'none';
+      btn.style.marginBottom = '0';
     }
   });
 }
@@ -121,47 +128,67 @@ function renderIssues() {
   });
 }
 
-function getPriorityClass(priority) {
+function getPriorityBorderColor(priority) {
   const p = (priority || '').toLowerCase();
-  if (p === 'high') return 'bg-green-100 text-green-800';
-  if (p === 'medium') return 'bg-orange-100 text-orange-800';
-  if (p === 'low') return 'bg-purple-100 text-purple-800';
+  if (p === 'high') return '#FEE7E8';
+  if (p === 'medium') return '#FFF2CC';
+  if (p === 'low') return '#F0F0FA';
+  if (p === 'enhancement') return '#D4EDDA';
+  return '#F0F0FA';
+}
+
+function getPriorityTagClass(priority) {
+  const p = (priority || '').toLowerCase();
+  if (p === 'high') return 'bg-[#FEE7E8] text-[#C53030]';
+  if (p === 'medium') return 'bg-[#FFF2CC] text-[#B45309]';
+  if (p === 'low') return 'bg-[#F0F0FA] text-[#553C9A]';
+  if (p === 'enhancement') return 'bg-[#D4EDDA] text-[#276749]';
   return 'bg-gray-100 text-gray-800';
 }
 
 function getLabelClass(label) {
   const l = (label || '').toLowerCase();
-  if (l.includes('bug')) return 'bg-red-100 text-red-800';
-  if (l.includes('help wanted')) return 'bg-orange-100 text-orange-800';
-  if (l.includes('enhancement')) return 'bg-green-100 text-green-800';
-  if (l.includes('documentation')) return 'bg-blue-100 text-blue-800';
-  if (l.includes('good first issue')) return 'bg-teal-100 text-teal-800';
-  return 'bg-gray-100 text-gray-800';
+  if (l.includes('bug')) return 'text-white';
+  if (l.includes('help wanted')) return 'text-white';
+  if (l.includes('enhancement')) return 'text-[#276749]';
+  return 'text-gray-800';
+}
+
+function getLabelBgStyle(label) {
+  const l = (label || '').toLowerCase();
+  if (l.includes('bug')) return '#F56565';
+  if (l.includes('help wanted')) return '#E6A800';
+  if (l.includes('enhancement')) return '#D4EDDA';
+  if (l.includes('documentation')) return '#BEE3F8';
+  return '#E5E7EB';
 }
 
 function createIssueCard(issue) {
   const isOpen = issue.status === 'open';
-  const borderClass = isOpen ? 'border-t-green-500' : 'border-t-purple-500';
-  const statusColor = isOpen ? 'bg-green-500' : 'bg-purple-500';
+  const borderColor = getPriorityBorderColor(issue.priority);
+  const priorityTagClass = getPriorityTagClass(issue.priority);
   const formattedDate = formatDate(issue.createdAt);
   const labels = Array.isArray(issue.labels) ? issue.labels : [];
-  const priorityClass = getPriorityClass(issue.priority);
 
   const card = document.createElement('div');
-  card.className = `issue-card bg-white rounded-lg border border-gray-200 border-t-4 ${borderClass} p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer`;
+  card.className = 'issue-card bg-white rounded-lg border border-gray-200 border-t-4 p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer';
+  card.style.borderTopColor = borderColor;
   card.addEventListener('click', () => showIssueModal(issue.id));
+  const statusIconHtml = isOpen
+    ? '<img src="assets/open-icon.png" alt="Open" class="w-8 h-8 flex-shrink-0 object-contain">'
+    : '<img src="assets/closed-icon.png" alt="Closed" class="w-8 h-8 flex-shrink-0 object-contain">';
   card.innerHTML = `
     <div class="flex justify-between items-start mb-3">
-      <span class="w-2.5 h-2.5 rounded-full ${statusColor} mt-1.5 flex-shrink-0"></span>
-      <span class="px-2 py-0.5 rounded-full text-xs font-semibold uppercase ${priorityClass}">${escapeHtml(issue.priority || 'N/A')}</span>
+      ${statusIconHtml}
+      <span class="px-2 py-0.5 rounded-full text-xs font-semibold uppercase ${priorityTagClass}">${escapeHtml(issue.priority || 'N/A')}</span>
     </div>
     <h3 class="font-semibold text-gray-800 mb-2 line-clamp-2">${escapeHtml(issue.title)}</h3>
     <p class="text-sm text-gray-600 mb-3 line-clamp-2">${escapeHtml(issue.description || '')}</p>
     <div class="flex flex-wrap gap-1 mb-3">
-      ${labels.map(l => `<span class="px-2 py-0.5 rounded text-xs font-medium ${getLabelClass(l)}"># ${escapeHtml(l)}</span>`).join('')}
+      ${labels.map(l => `<span class="px-2 py-0.5 rounded text-xs font-medium ${getLabelClass(l)}" style="background-color: ${getLabelBgStyle(l)}"># ${escapeHtml(l)}</span>`).join('')}
     </div>
     <div class="text-xs text-gray-500 pt-2 border-t border-gray-100">
-      <span>By ${escapeHtml(issue.author || '-')}</span>
+      <span>#${issue.id} by ${escapeHtml(issue.author || '-')}</span>
       <span class="mx-1">•</span>
       <span>${formattedDate}</span>
     </div>

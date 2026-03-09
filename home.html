@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="tailwind.init.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-white min-h-screen">
   <!-- Navbar -->
   <nav class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -24,10 +24,10 @@
               type="text" 
               id="searchInput" 
               placeholder="Search Issues..." 
-              class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none"
+              class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg outline-none search-input-focus"
             >
           </div>
-          <button class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors whitespace-nowrap">
+          <button class="px-4 py-2 text-white font-medium rounded-lg transition-colors whitespace-nowrap hover:opacity-90" style="background-color: #633EFF;">
             <i class="fas fa-plus mr-2"></i> New Issue
           </button>
           <button id="logoutBtn" class="px-4 py-2 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors" title="Logout">
@@ -40,18 +40,18 @@
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <!-- Tabs -->
-    <div class="flex gap-1 mb-6">
-      <button id="tabAll" class="tab-btn px-6 py-2.5 rounded-t-lg font-medium bg-purple-600 text-white" data-tab="all">All</button>
-      <button id="tabOpen" class="tab-btn px-6 py-2.5 rounded-t-lg font-medium bg-gray-200 text-gray-700 hover:bg-gray-300" data-tab="open">Open</button>
-      <button id="tabClosed" class="tab-btn px-6 py-2.5 rounded-t-lg font-medium bg-gray-200 text-gray-700 hover:bg-gray-300" data-tab="closed">Closed</button>
+    <div class="flex gap-0 border-b-2 border-dotted border-gray-300 pb-0 mb-6">
+      <button id="tabAll" class="tab-btn px-6 py-2.5 rounded-t-lg font-medium text-white" style="background-color: #633EFF;" data-tab="all">All</button>
+      <button id="tabOpen" class="tab-btn px-6 py-2.5 rounded-t-lg font-medium bg-white border border-b-0 border-gray-300 text-gray-700 hover:bg-gray-50" data-tab="open">Open</button>
+      <button id="tabClosed" class="tab-btn px-6 py-2.5 rounded-t-lg font-medium bg-white border border-b-0 border-gray-300 text-gray-700 hover:bg-gray-50" data-tab="closed">Closed</button>
     </div>
 
     <!-- Summary Section -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div class="flex items-center gap-3">
-          <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
-            <i class="fas fa-cog text-purple-600 text-xl"></i>
+          <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background-color: rgba(99, 62, 255, 0.1);">
+            <i class="fas fa-cog text-xl" style="color: #633EFF;"></i>
           </div>
           <div>
             <h2 class="text-2xl font-bold text-gray-800"><span id="issueCount">0</span> Issues</h2>
@@ -60,11 +60,11 @@
         </div>
         <div class="flex items-center gap-6 text-sm">
           <span class="flex items-center gap-2">
-            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+            <span class="w-3 h-3 rounded-full" style="background-color: #28A745;"></span>
             <span class="text-gray-600">Open</span>
           </span>
           <span class="flex items-center gap-2">
-            <span class="w-3 h-3 rounded-full bg-purple-500"></span>
+            <span class="w-3 h-3 rounded-full" style="background-color: #633EFF;"></span>
             <span class="text-gray-600">Closed</span>
           </span>
         </div>
@@ -73,7 +73,7 @@
 
     <!-- Loading Spinner -->
     <div id="loadingSpinner" class="flex flex-col items-center justify-center py-20">
-      <div class="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
+      <div class="w-12 h-12 border-4 border-t-transparent rounded-full animate-spin" style="border-color: #633EFF; border-top-color: transparent;"></div>
       <p class="mt-4 text-gray-500">Loading issues...</p>
     </div>
 
@@ -102,7 +102,7 @@
           <p><span class="text-gray-500 font-medium">Priority:</span> <span id="modalPriority"></span></p>
         </div>
         <div class="flex justify-end">
-          <button id="closeModal" class="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors">Close</button>
+          <button id="closeModal" class="px-6 py-2 text-white font-medium rounded-lg transition-colors" style="background-color: #633EFF;">Close</button>
         </div>
       </div>
     </div>
